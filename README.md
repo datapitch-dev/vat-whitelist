@@ -47,7 +47,8 @@ klikania. To narzędzie robi to w jednym poleceniu i zostawia ślad w postaci ra
   narzędzie porównuje go z rachunkami z wykazu. Gdy firma używa rachunków wirtualnych (których
   wykaz nie podaje w całości), wynik to „Sprawdź ręcznie”, a nie fałszywe „NIE”.
 - **Raport, który da się od razu oddać.** Arkusz „Wyniki” z kolorami (zielony: w porządku,
-  żółty: do uwagi, czerwony: problem), filtrami i zamrożonym nagłówkiem oraz arkusz
+  żółty: do uwagi, czerwony: problem), filtrami i zamrożonym nagłówkiem, arkusz „Rachunki”
+  (duże firmy mają w wykazie setki rachunków, więc każdy jest w osobnym wierszu) oraz arkusz
   „Podsumowanie”. Kolumna „Id zapytania” to identyfikator nadany przez MF, który potwierdza,
   że kontrahent był sprawdzony danego dnia.
 

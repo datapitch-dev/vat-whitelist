@@ -24,7 +24,7 @@ COLUMNS = [
     ("Data wykreślenia", lambda r: r.removal_date, 14),
     ("Rachunek z pliku", lambda r: r.input_account, 30),
     ("Rachunek na liście", lambda r: r.account_on_list, 16),
-    ("Rachunki w wykazie", lambda r: "\n".join(r.accounts), 30),
+    ("Rachunków w wykazie", lambda r: len(r.accounts) if r.accounts else None, 12),
     ("Rachunki wirtualne", lambda r: "tak" if r.has_virtual_accounts else "", 10),
     ("Id zapytania (dowód)", lambda r: r.request_id, 22),
     ("Uwagi", lambda r: r.note, 40),
@@ -71,6 +71,23 @@ def write_xlsx(results: list[Result], stats: RunStats, path: str | Path, date: s
     ws.freeze_panes = "C2"
     ws.auto_filter.ref = ws.dimensions
 
+    # Large companies list hundreds of accounts, so they get their own sheet, one per row.
+    accounts = wb.create_sheet("Rachunki")
+    accounts.append(["NIP", "Nazwa", "Rachunek z wykazu"])
+    for cell in accounts[1]:
+        cell.font = Font(bold=True)
+    for width, col in ((13, "A"), (40, "B"), (30, "C")):
+        accounts.column_dimensions[col].width = width
+    seen = set()
+    for result in results:
+        if result.nip in seen:
+            continue
+        seen.add(result.nip)
+        for account in result.accounts:
+            accounts.append([result.nip, result.name, account])
+    accounts.freeze_panes = "A2"
+    accounts.auto_filter.ref = accounts.dimensions
+
     info = wb.create_sheet("Podsumowanie")
     info.column_dimensions["A"].width = 34
     info.column_dimensions["B"].width = 60
@@ -96,4 +113,4 @@ def write_csv(results: list[Result], path: str | Path) -> None:
         writer = csv.writer(fh, delimiter=";")
         writer.writerow([name for name, _, _ in COLUMNS])
         for result in results:
-            writer.writerow([str(get(result)).replace("\n", ", ") for _, get, _ in COLUMNS])
+            writer.writerow(["" if (v := get(result)) is None else v for _, get, _ in COLUMNS])
