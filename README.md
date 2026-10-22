@@ -1,5 +1,7 @@
 # vat-whitelist
 
+[![testy](https://github.com/datapitch-dev/vat-whitelist/actions/workflows/tests.yml/badge.svg)](https://github.com/datapitch-dev/vat-whitelist/actions/workflows/tests.yml)
+
 Hurtowe sprawdzanie kontrahentów na **białej liście podatników VAT** (Wykaz podatników VAT
 Ministerstwa Finansów) przez oficjalne, darmowe API `wl-api.mf.gov.pl`.
 Na wejściu CSV albo Excel z NIP-ami, na wyjściu raport w Excelu ze statusem VAT, danymi firmy,
